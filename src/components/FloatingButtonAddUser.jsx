@@ -1,0 +1,46 @@
+import { Fab, ThemeProvider, Tooltip } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import theme from "./Theme"
+import ModalNewUser from "./ModalNewUser";
+import { useState } from "react";
+import SnackbarAlert from "./SnackbarAlert";
+
+function FloatingButtonAddUser({ handleNewUser }) {
+    const [openModal, setOpenModal] = useState(false);
+    const handleCloseModal = () => setOpenModal(false);
+    const handleOpenModal = () => setOpenModal(true);
+    const [severity, setSeverity] = useState('');
+    const [message, setMessage] = useState('');
+    const [show, setShow] = useState(false);
+    const handleCloseSnackbar = () => { setShow(false); }
+
+    return(
+        <ThemeProvider theme={theme}>
+            <Tooltip title="New User">
+                <Fab 
+                    color="custom" 
+                    aria-label="add"
+                    onClick={handleOpenModal}
+                    sx={{
+                        position: "absolute",
+                        right: "5%",
+                        bottom: "5%"
+                    }}
+                >
+                    <AddIcon />
+                </Fab>
+            </Tooltip>
+            <ModalNewUser 
+                open={openModal} 
+                handleClose={handleCloseModal} 
+                handleNewUser={handleNewUser} 
+                setShow={setShow}
+                setSeverity={setSeverity}
+                setMessage={setMessage} 
+            />
+            <SnackbarAlert show={show} severity={severity} message={message} handleClose={handleCloseSnackbar} />
+        </ThemeProvider>
+    );
+}
+
+export default FloatingButtonAddUser;
